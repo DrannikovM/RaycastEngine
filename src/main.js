@@ -1,6 +1,7 @@
 import {Minimap} from './UI/Minimap.js'
 import {Player} from './Engine/Player.js';
 import { mapWidth, mapHeight, getCellSize} from './Engine/Map.js';
+import { setupInput } from './Engine/Input.js';
 
 const CANVAS = gameCanvas;
 const CTX = CANVAS.getContext('2d');
@@ -13,6 +14,8 @@ var player = new Player(
     (mapWidth / 2) * getCellSize(WIDTH),
     (mapHeight / 2) * getCellSize(WIDTH)
 );
+
+setupInput(player);
 
 function gameLoop() {
     CTX.fillStyle = '#1f1f1f';
