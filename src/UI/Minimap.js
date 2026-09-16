@@ -26,4 +26,21 @@ export class Minimap {
             }
         }
     }
+
+    drawPlayer(player) {
+        if (!player) return;
+        const playerSize = 4
+        this.ctx.fillStyle = '#f00';
+        this.ctx.fillRect(
+            player.x - (playerSize / 2),
+            player.y - (playerSize / 2),
+            playerSize,
+            playerSize
+        );
+    }
+
+    draw(player) {
+        this.drawMap();
+        this.drawPlayer(player);
+    }
 }
