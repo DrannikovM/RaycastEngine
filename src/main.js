@@ -1,6 +1,6 @@
 import {Minimap} from './UI/Minimap.js'
 import {Player} from './Engine/Player.js';
-import { mapWidth, mapHeight, getCellSize} from './Engine/Map.js';
+import { mapWidth, mapHeight} from './Engine/Map.js';
 import { setupInput } from './Engine/Input.js';
 
 const CANVAS = gameCanvas;
@@ -9,11 +9,12 @@ const CTX = CANVAS.getContext('2d');
 const WIDTH = CANVAS.width;
 const HEIGHT = CANVAS.height;
 
-var minimap = new Minimap(CTX, WIDTH);
-var player = new Player(
-    (mapWidth / 2) * getCellSize(WIDTH),
-    (mapHeight / 2) * getCellSize(WIDTH)
-);
+var minimap = new Minimap(CTX, 160);
+const player = new Player(2.5, 2.5, 0);
+// var player = new Player(
+//     (mapWidth / 2) * getCellSize(WIDTH),
+//     (mapHeight / 2) * getCellSize(WIDTH)
+// );
 
 setupInput(player);
 

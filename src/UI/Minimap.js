@@ -1,26 +1,25 @@
-import { Map, mapWidth, mapHeight, getCellSize } from "../Engine/Map.js";
+import { Map, mapWidth, mapHeight } from "../Engine/Map.js";
 
 export class Minimap {
-    constructor(ctx, canvasWidth) {
+    constructor(ctx, sizeInPixels = 150) {
         this.ctx = ctx;
-        this.cellSize = getCellSize(canvasWidth);
-        this.mapSize = canvasWidth * 0.15;
-        this.wallColor = '#ffffff';
+        this.sizeInPixels = sizeInPixels;
+        this.tileSize = this.sizeInPixels / Math.max(mapWidth, mapHeight);
     }
     
     drawMap() {
         this.ctx.fillStyle = '#000';
-        this.ctx.fillRect(0, 0, this.mapSize, this.mapSize)
+        this.ctx.fillRect(0, 0, mapWidth * this.tileSize, mapHeight * this.tileSize);
 
         for (let y = 0; y < mapHeight; y++) {
             for (let x = 0; x < mapWidth; x++) {
                 if (Map[y][x] == 1) {
-                    this.ctx.fillStyle = this.wallColor;
+                    this.ctx.fillStyle = '#fff';
                     this.ctx.fillRect(
-                        x * this.cellSize,
-                        y * this.cellSize,
-                        this.cellSize,
-                        this.cellSize
+                        Math.floor(x * this.tileSize),
+                        Math.floor(y * this.tileSize),
+                        Math.ceil(this.tileSize),
+                        Math.ceil(this.tileSize)
                     );
                 }
             }
@@ -29,14 +28,21 @@ export class Minimap {
 
     drawPlayer(player) {
         if (!player) return;
-        const playerSize = 4
+
+        const px = player.x * this.tileSize;
+        const py = player.y * this.tileSize;
+        const radius = player.radius * this.tileSize;
+
         this.ctx.fillStyle = '#f00';
-        this.ctx.fillRect(
-            player.x - (playerSize / 2),
-            player.y - (playerSize / 2),
-            playerSize,
-            playerSize
-        );
+        this.ctx.beginPath();
+        this.ctx.arc(px, py, radius, 0, Math.PI * 2);
+        this.ctx.fill();
+        // this.ctx.fillRect(
+        //     player.x - player.radius,
+        //     player.y - player.radius,
+        //     player.radius * 2,
+        //     player.radius * 2
+        // );
     }
 
     draw(player) {
