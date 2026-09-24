@@ -1,5 +1,6 @@
 export function setupInput(player) {
     const moveSpeed = 0.3;
+    const angleStep = 0.1;
 
     window.addEventListener("keydown", (e) => {
         if (e.defaultPrevented) return;
@@ -7,19 +8,25 @@ export function setupInput(player) {
         switch(e.code) {
             case "KeyS":
             case "ArrowDown":
-                player.move(0, moveSpeed);
+                player.moveForward(-moveSpeed);
                 break;
             case "KeyW":
             case "ArrowUp":
-                player.move(0, -moveSpeed);
+                player.moveForward(moveSpeed);
                 break;
             case "KeyA":
             case "ArrowLeft":
-                player.move(-moveSpeed, 0);
+                player.strafe(-moveSpeed);
                 break;
             case "KeyD":
             case "ArrowRight":
-                player.move(moveSpeed, 0);
+                player.strafe(moveSpeed);
+                break;
+            case "KeyQ":
+                player.rotate(-angleStep);
+                break;
+            case "KeyE":
+                player.rotate(angleStep);
                 break;
         }
     });

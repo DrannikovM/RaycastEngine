@@ -1,7 +1,7 @@
 import { Map, mapHeight, mapWidth } from "./Map.js";
 
 const FOV = Math.PI / 3;
-const DEPTH = 30.0;
+const DEPTH = 20.0;
 
 export class RayCaster {
     constructor(ctx, screenWidth, screenHeight) {
@@ -17,8 +17,8 @@ export class RayCaster {
             let distanceToWall = 0.0;
             let hitWall = false;
 
-            const eyeX = Math.sin(rayAngle);
-            const eyeY = Math.cos(rayAngle);
+            const eyeX = Math.cos(rayAngle);
+            const eyeY = Math.sin(rayAngle);
 
             while (!hitWall && distanceToWall < DEPTH) {
                 distanceToWall += 0.5;
@@ -39,10 +39,17 @@ export class RayCaster {
                 }
             }
             
+            let shade;
+
+            if (distanceToWall <= DEPTH / 3) shade = '#fff';
+            else if (distanceToWall <= DEPTH / 2) shade = '#c7c7c7';
+            else if (distanceToWall <= DEPTH / 1.5) shade = '#737373';
+            else shade = '#1f1f1f'
+
             const ceiling = (this.screenHeight/2.0) - this.screenHeight / distanceToWall;
             const floor = this.screenHeight - ceiling;
 
-            this.ctx.fillStyle = '#fff';
+            this.ctx.fillStyle = shade;
             this.ctx.fillRect(x, ceiling, 1, floor - ceiling);
         }
     }

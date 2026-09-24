@@ -32,7 +32,38 @@ export class Minimap {
         const px = player.x * this.tileSize;
         const py = player.y * this.tileSize;
         const radius = player.radius * this.tileSize;
+        
+        const lineLength = 50;
 
+        // drawing fov cone
+        const fov = Math.PI / 3;
+        const rayCount = 35;
+        this.ctx.strokeStyle = '#ffd9008a';
+        this.ctx.lineWidth = 1;
+
+        for (let i = 0; i < rayCount; i++) {
+            const rayAngle = (player.angle - fov / 2) + (i / (rayCount - 1)) * fov;
+            this.ctx.beginPath();
+            this.ctx.moveTo(px, py);
+            this.ctx.lineTo(
+                px + Math.cos(rayAngle) * lineLength,
+                py + Math.sin(rayAngle) * lineLength,
+            );
+            this.ctx.stroke();
+        }
+
+        // drawing player direction vector
+        this.ctx.strokeStyle = '#00ff00';
+        this.ctx.lineWidth = 2;
+        this.ctx.beginPath();
+        this.ctx.moveTo(px, py);
+        this.ctx.lineTo(
+            px + Math.cos(player.angle) * lineLength,
+            py + Math.sin(player.angle) * lineLength,
+        );
+        this.ctx.stroke();
+
+        // drawing player dot
         this.ctx.fillStyle = '#f00';
         this.ctx.beginPath();
         this.ctx.arc(px, py, radius, 0, Math.PI * 2);
