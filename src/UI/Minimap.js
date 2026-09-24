@@ -37,12 +37,6 @@ export class Minimap {
         this.ctx.beginPath();
         this.ctx.arc(px, py, radius, 0, Math.PI * 2);
         this.ctx.fill();
-        // this.ctx.fillRect(
-        //     player.x - player.radius,
-        //     player.y - player.radius,
-        //     player.radius * 2,
-        //     player.radius * 2
-        // );
     }
 
     draw(player) {
